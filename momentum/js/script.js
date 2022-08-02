@@ -12,6 +12,10 @@ const wind = document.querySelector('.wind');
 const humidity = document.querySelector('.humidity');
 const city = document.querySelector('.city');
 const weatherError = document.querySelector('.weather-error');
+const changeQuote = document.querySelector('.change-quote');
+const quote = document.querySelector('.quote');
+const author = document.querySelector('.author');
+
 
 function showTime() {
 	const date = new Date();
@@ -64,11 +68,12 @@ window.addEventListener('load', getLocalStorage)
 //greeting
 
 //slider
-function getRandomNum() {
-	return Math.floor(Math.random() * 20) + 1;
+function getRandomNum(min, max) {
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
-let randomNum = getRandomNum();
+let randomNum = getRandomNum(1, 20);
 
 function setBg() {
 	const timeOfDay = getTimeOfDay();
@@ -147,3 +152,16 @@ window.addEventListener('load', getLocalStorageWeather)
 city.addEventListener('change', getWeather);
 //weather 
 
+//quote
+async function getQuotes() {
+	const quotes = "assets/dataRU.json";
+	const res = await fetch(quotes);
+	const data = await res.json();
+	const randomQuote = getRandomNum(0, 19);
+	quote.textContent = `"${data[randomQuote].text}"`;
+	author.textContent = data[randomQuote].author;
+  }
+getQuotes();
+  
+changeQuote.addEventListener("click", getQuotes);
+//quote
