@@ -20,7 +20,7 @@ const play = document.querySelector('.play');
 const playPrev = document.querySelector('.play-prev');
 const playNext = document.querySelector('.play-next');
 const trackList = document.querySelector('.play-list');
-const track = document.querySelector('.play-item');
+const track = document.querySelector('.track');
 
 function showTime() {
   const date = new Date();
@@ -175,7 +175,6 @@ changeQuote.addEventListener('click', getQuotes);
 
 //audio
 import playList from './playList.js';
-console.log(playList);
 
 for (let i = 0; i < playList.length; i++) {
   const li = document.createElement('li');
@@ -196,6 +195,7 @@ function playAudio() {
     document
       .querySelectorAll('.play-list > li')
       [playNum].classList.add('item-active');
+    track.innerHTML = playList[playNum].title;
   } else {
     audio.pause();
     isPlay = false;
@@ -244,5 +244,3 @@ playPrev.addEventListener('click', prevTrack);
 audio.addEventListener('ended', nextTrack);
 
 //audio
-
-
