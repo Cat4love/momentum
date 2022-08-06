@@ -3,6 +3,7 @@ const time = document.querySelector('.time');
 const data = document.querySelector('.date');
 const greeting = document.querySelector('.greeting');
 const name = document.querySelector('.name');
+const namePlaceholder = document.querySelector('.name::placeholder');
 const slideNext = document.querySelector('.slide-next');
 const slidePrev = document.querySelector('.slide-prev');
 const weatherIcon = document.querySelector('.weather-icon');
@@ -24,6 +25,8 @@ const settings = document.querySelector('.settings');
 const all = document.querySelector('.all');
 const settingsWindow = document.querySelector('.settings-window');
 
+let language = 'ru';
+
 function showTime() {
   const date = new Date();
   const currentTime = date.toLocaleTimeString();
@@ -43,7 +46,7 @@ function showDate() {
     month: 'long',
     day: 'numeric',
   };
-  const currentDate = date.toLocaleDateString('en-Us', options);
+  const currentDate = date.toLocaleDateString(`${language}`, options);
   data.textContent = currentDate;
 }
 //time
@@ -56,7 +59,16 @@ function getTimeOfDay() {
 }
 
 function showGreeting() {
-  greeting.textContent = `Good ${getTimeOfDay()}`;
+  if (language === 'en') {
+    greeting.textContent = `Good ${getTimeOfDay()}`;
+    name.placeholder = 'Enter name';
+  }
+  if (language === 'ru') {
+    const date = new Date();
+    const hours = date.getHours();
+    greeting.textContent = ['Доброй ночи', 'Доброе утро', 'Добрый день', 'Добрый вечер'][Math.floor(hours / 6)];
+    name.placeholder = 'Введите имя';
+  }
 }
 
 function setLocalStorage() {
@@ -72,7 +84,7 @@ function getLocalStorage() {
   if (localStorage.getItem('city')) {
     city.value = localStorage.getItem('city');
   } else {
-    city.value = 'Minsk';
+    city.value = 'efasfa';
   }
 }
 window.addEventListener('load', getLocalStorage);
@@ -121,10 +133,10 @@ slidePrev.addEventListener('click', getSlidePrev);
 
 //weather
 async function getWeather() {
-  let url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=en&appid=5e6a18dd46aeb701230f1dac90b8123c&units=metric`;
+  let url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=${language}&appid=5e6a18dd46aeb701230f1dac90b8123c&units=metric`;
   const res = await fetch(url);
   const data = await res.json();
-  if (data.message === 'city not found') {
+  if (data.cod === '404') {
     weatherError.textContent = `Error! city not found for '${city.value}'!`;
     weatherIcon.className = 'weather-icon owf';
     temperature.textContent = '';
@@ -137,8 +149,14 @@ async function getWeather() {
     weatherIcon.classList.add(`owf-${data.weather[0].id}`);
     temperature.textContent = `${Math.round(data.main.temp)}°C`;
     weatherDescription.textContent = data.weather[0].description;
-    wind.textContent = `Wind speed: ${Math.round(data.wind.speed)}m/s`;
-    humidity.textContent = `Humidity: ${Math.round(data.main.humidity)}%.`;
+    if (language === 'en') {
+      wind.textContent = `Wind speed: ${Math.round(data.wind.speed)}m/s`;
+      humidity.textContent = `Humidity: ${Math.round(data.main.humidity)}%.`;
+    }
+    if (language === 'ru') {
+      wind.textContent = `Скорость ветра: ${Math.round(data.wind.speed)}m/s`;
+      humidity.textContent = `Влажность: ${Math.round(data.main.humidity)}%.`;
+    }
   }
 }
 
@@ -163,7 +181,7 @@ city.addEventListener('change', getWeather);
 
 //quote
 async function getQuotes() {
-  const quotes = 'assets/dataRU.json';
+  const quotes = `assets/data-${language}.json`;
   const res = await fetch(quotes);
   const data = await res.json();
   const randomQuote = getRandomNum(0, 19);

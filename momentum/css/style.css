@@ -320,6 +320,12 @@ body {
   border-radius: 25px;
   transition: .4s all ease-out;
   transform: translateX(-100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.settings-select {
+  width: 50px;
 }
 .settings-window__on {
   transform: translateX(0%);
@@ -329,6 +335,7 @@ body {
   visibility: hidden;
   transition: .4s all ease-out;
 } 
+
 
 
 @media (max-width: 768px) {
