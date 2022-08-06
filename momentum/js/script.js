@@ -20,7 +20,9 @@ const play = document.querySelector('.play');
 const playPrev = document.querySelector('.play-prev');
 const playNext = document.querySelector('.play-next');
 const trackList = document.querySelector('.play-list');
-const track = document.querySelector('.track');
+const settings = document.querySelector('.settings');
+const all = document.querySelector('.all');
+const settingsWindow = document.querySelector('.settings-window');
 
 function showTime() {
   const date = new Date();
@@ -244,3 +246,17 @@ playPrev.addEventListener('click', prevTrack);
 audio.addEventListener('ended', nextTrack);
 
 //audio
+//settings
+settings.addEventListener('click', () => {
+  all.classList.toggle('hidden');
+  settingsWindow.classList.toggle('settings-window__on');
+})
+
+all.addEventListener('click', (event) => {
+  if (event.target.classList.contains('all')) {
+    all.classList.add('hidden');
+    settingsWindow.classList.remove('settings-window__on');
+  }
+})
+//setings
+
