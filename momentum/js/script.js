@@ -1,4 +1,4 @@
-//time
+
 const time = document.querySelector('.time');
 const data = document.querySelector('.date');
 const greeting = document.querySelector('.greeting');
@@ -25,8 +25,49 @@ const settings = document.querySelector('.settings');
 const all = document.querySelector('.all');
 const settingsWindow = document.querySelector('.settings-window');
 
-let language = 'ru';
+let language = 'en';
 
+function setLocalStorage() {
+  localStorage.setItem('name', name.value);
+  localStorage.setItem('city', city.value);
+  localStorage.setItem('language', language);
+}
+window.addEventListener('beforeunload', setLocalStorage);
+
+function getLocalStorage() {
+  if (localStorage.getItem('name')) {
+    name.value = localStorage.getItem('name');
+    }
+  if (localStorage.getItem('language')) {
+    language = localStorage.getItem('language');
+    const settingsSelect = document.getElementById('select-language');
+    settingsSelect.value = language;
+    changeLanguage()
+    }
+}
+window.addEventListener('load', getLocalStorage);
+
+//translate
+function changeLanguage() {
+  language = settingsSelect.value;
+  if (city.value === 'Minsk' && language === 'ru') {
+    city.value = 'Минск';
+  }
+  if (city.value === 'Минск' && language === 'en') {
+    city.value = 'Minsk';
+  }
+  getWeather();
+  showTime();
+  getQuotes();
+}
+
+const settingsSelect = document.getElementById('select-language');
+  settingsSelect.addEventListener('change', () => {
+    changeLanguage()
+  })
+//translate
+
+//time 
 function showTime() {
   const date = new Date();
   const currentTime = date.toLocaleTimeString();
@@ -71,23 +112,7 @@ function showGreeting() {
   }
 }
 
-function setLocalStorage() {
-  localStorage.setItem('name', name.value);
-  localStorage.setItem('city', city.value);
-}
-window.addEventListener('beforeunload', setLocalStorage);
 
-function getLocalStorage() {
-  if (localStorage.getItem('name')) {
-    name.value = localStorage.getItem('name');
-  }
-  if (localStorage.getItem('city')) {
-    city.value = localStorage.getItem('city');
-  } else {
-    city.value = 'efasfa';
-  }
-}
-window.addEventListener('load', getLocalStorage);
 //greeting
 
 //slider
@@ -136,8 +161,9 @@ async function getWeather() {
   let url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=${language}&appid=5e6a18dd46aeb701230f1dac90b8123c&units=metric`;
   const res = await fetch(url);
   const data = await res.json();
-  if (data.cod === '404') {
-    weatherError.textContent = `Error! city not found for '${city.value}'!`;
+  console.log(res.status);
+  if (data.cod === '404' || data.cod === '400') {
+    weatherError.textContent = `Error! city not found!`;
     weatherIcon.className = 'weather-icon owf';
     temperature.textContent = '';
     weatherDescription.textContent = '';
@@ -168,10 +194,22 @@ window.addEventListener('beforeunload', setLocalStorageWeather);
 function getLocalStorageWeather() {
   if (localStorage.getItem('city')) {
     city.value = localStorage.getItem('city');
+    if (city.value === 'Minsk' && language === 'ru') {
+      city.value = 'Минск';
+    }
+    if (city.value === 'Минск' && language === 'en') {
+      city.value = 'Minsk';
+    }
     getWeather();
   } else {
-    city.value = 'Minsk';
-    getWeather();
+    if (language === 'en') {
+      city.value = 'Minsk';
+      getWeather();
+    }
+    if (language === 'ru') {
+      city.value = 'Минск';
+      getWeather();
+    }
   }
 }
 window.addEventListener('load', getLocalStorageWeather);
@@ -277,4 +315,7 @@ all.addEventListener('click', (event) => {
   }
 })
 //setings
+
+
+
 
