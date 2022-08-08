@@ -59,10 +59,62 @@
     </footer>
     <div class="all hidden">
       <div class="settings-window">
-        <select id='select-language'class="settings-select">
-          <option value="en">EN</option>
-          <option value="ru">RU</option>
-        </select>
+        <div class="settings_item">
+          <span class="settings-language">Language:</span>
+          <select id='select-language'class="settings-select">
+            <option value="en">EN</option>
+            <option value="ru">RU</option>
+          </select>
+        </div>
+        <span class="settings-source">Source:</span>
+        <div class="settings-buttons">
+          <button class="sorce-github settings-button">GitHub</button>
+          <button class="sorce-unsplash settings-button">Unsplash</button>
+          <button class="source-flickr settings-button">Flickr</button>
+        </div>
+        <span class="setttings-show">Show elements:</span>
+        <div class="settings_item">
+          <span class="show-span">time</span>
+          <select id='show-time'class="settings-select">
+            <option value="on">ON</option>
+            <option value="off">OFF</option> 
+          </select>
+        </div>
+        <div class="settings_item">
+          <span class="show-span">date</span>
+          <select id='show-date'class="settings-select">
+            <option value="on">ON</option>
+            <option value="off">OFF</option>
+          </select>
+        </div>
+        <div class="settings_item">
+          <span class="show-span">greeting</span>
+          <select id='show-greeting'class="settings-select">
+            <option value="on">ON</option>
+            <option value="off">OFF</option>
+          </select>
+        </div>
+        <div class="settings_item">
+          <span class="show-span">quote</span>
+          <select id='show-quote'class="settings-select">
+            <option value="on">ON</option>
+            <option value="off">OFF</option>
+          </select>
+        </div>
+        <div class="settings_item">
+          <span class="show-span">weather</span>
+          <select id='show-weather'class="settings-select">
+            <option value="on">ON</option>
+            <option value="off">OFF</option>
+          </select>
+        </div>
+        <div class="settings_item">
+          <span class="show-span">audio</span>
+          <select id='show-audio'class="settings-select">
+            <option value="on">ON</option>
+            <option value="off">OFF</option>
+          </select>
+        </div>
       </div>
     </div>
     <script src="js/script.js" type="module"></script>

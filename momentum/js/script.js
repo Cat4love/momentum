@@ -2,10 +2,12 @@
 const time = document.querySelector('.time');
 const data = document.querySelector('.date');
 const greeting = document.querySelector('.greeting');
+const greetingCont = document.querySelector('.greeting-container');
 const name = document.querySelector('.name');
 const namePlaceholder = document.querySelector('.name::placeholder');
 const slideNext = document.querySelector('.slide-next');
 const slidePrev = document.querySelector('.slide-prev');
+const weather = document.querySelector('.weather');
 const weatherIcon = document.querySelector('.weather-icon');
 const temperature = document.querySelector('.temperature');
 const weatherDescription = document.querySelector('.weather-description');
@@ -14,8 +16,10 @@ const humidity = document.querySelector('.humidity');
 const city = document.querySelector('.city');
 const weatherError = document.querySelector('.weather-error');
 const changeQuote = document.querySelector('.change-quote');
+const quoteCont = document.querySelector('.quote-container');
 const quote = document.querySelector('.quote');
 const author = document.querySelector('.author');
+const player = document.querySelector('.player');
 const audio = document.querySelector('audio');
 const play = document.querySelector('.play');
 const playPrev = document.querySelector('.play-prev');
@@ -49,7 +53,7 @@ window.addEventListener('load', getLocalStorage);
 
 //translate
 function changeLanguage() {
-  language = settingsSelect.value;
+  language = selectLanguage.value;
   if (city.value === 'Minsk' && language === 'ru') {
     city.value = 'Минск';
   }
@@ -61,8 +65,8 @@ function changeLanguage() {
   getQuotes();
 }
 
-const settingsSelect = document.getElementById('select-language');
-  settingsSelect.addEventListener('change', () => {
+const selectLanguage = document.getElementById('select-language');
+  selectLanguage.addEventListener('change', () => {
     changeLanguage()
   })
 //translate
@@ -163,7 +167,7 @@ async function getWeather() {
   const data = await res.json();
   console.log(res.status);
   if (data.cod === '404' || data.cod === '400') {
-    weatherError.textContent = `Error! city not found!`;
+    weatherError.textContent = `Error!`;
     weatherIcon.className = 'weather-icon owf';
     temperature.textContent = '';
     weatherDescription.textContent = '';
@@ -316,6 +320,75 @@ all.addEventListener('click', (event) => {
 })
 //setings
 
+//show elements
+const timeShow = document.getElementById('show-time');
+  timeShow.addEventListener('change', () => {
+    if (timeShow.value === 'off') {
+      time.classList.add('hidden');
+    }
+    if (timeShow.value === 'on') {
+      time.classList.remove('hidden');
+    }
+})
+const dateShow = document.getElementById('show-date');
+  dateShow.addEventListener('change', () => {
+    if (dateShow.value === 'off') {
+      data.classList.add('hidden');
+    }
+    if (dateShow.value === 'on') {
+      data.classList.remove('hidden');
+    }
+})
+const greetingShow = document.getElementById('show-greeting');
+greetingShow.addEventListener('change', () => {
+    if (greetingShow.value === 'off') {
+      greetingCont.classList.add('hidden');
+    }
+    if (greetingShow.value === 'on') {
+      greetingCont.classList.remove('hidden');
+    }
+})
+const showQuote = document.getElementById('show-quote');
+showQuote.addEventListener('change', () => {
+    if (showQuote.value === 'off') {
+      quoteCont.classList.add('hidden');
+    }
+    if (showQuote.value === 'on') {
+      quoteCont.classList.remove('hidden');
+    }
+})
+const weatherShow = document.getElementById('show-weather');
+weatherShow.addEventListener('change', () => {
+    if (weatherShow .value === 'off') {
+      weather.classList.add('hidden');
+    }
+    if (weatherShow.value === 'on') {
+      weather.classList.remove('hidden');
+    }
+})
+const audioShow = document.getElementById('show-audio');
+  audioShow.addEventListener('change', () => {
+    if (audioShow.value === 'off') {
+      player.classList.add('hidden');
+    }
+    if (audioShow.value === 'on') {
+      player.classList.remove('hidden');
+    }
+})
 
+const elements = [timeShow.value, dateShow.value, greetingShow.value, showQuote.value, weatherShow.value, audioShow.value];
 
+function setLocalStorageElements() {
+  localStorage.setItem('elements', elements);
+}
+window.addEventListener('beforeunload', setLocalStorageElements);
+
+function getLocalStorageElements() {
+  for (let i = 0; i < 6; i += 1){
+    elements[i] = localStorage.elements[i];
+  }
+}
+
+window.addEventListener('load', getLocalStorageElements);
+//show elements
 
