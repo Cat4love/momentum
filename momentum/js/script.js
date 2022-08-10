@@ -44,8 +44,8 @@ function getLocalStorage() {
     }
   if (localStorage.getItem('language')) {
     language = localStorage.getItem('language');
-    const settingsSelect = document.getElementById('select-language');
-    settingsSelect.value = language;
+    const selectLanguage = document.getElementById('select-language');
+    selectLanguage.value = language;
     changeLanguage()
     }
 }
@@ -321,74 +321,72 @@ all.addEventListener('click', (event) => {
 //setings
 
 //show elements
-const timeShow = document.getElementById('show-time');
-  timeShow.addEventListener('change', () => {
-    if (timeShow.value === 'off') {
-      time.classList.add('hidden');
-    }
-    if (timeShow.value === 'on') {
-      time.classList.remove('hidden');
-    }
-})
-const dateShow = document.getElementById('show-date');
-  dateShow.addEventListener('change', () => {
-    if (dateShow.value === 'off') {
-      data.classList.add('hidden');
-    }
-    if (dateShow.value === 'on') {
-      data.classList.remove('hidden');
-    }
-})
-const greetingShow = document.getElementById('show-greeting');
-greetingShow.addEventListener('change', () => {
-    if (greetingShow.value === 'off') {
-      greetingCont.classList.add('hidden');
-    }
-    if (greetingShow.value === 'on') {
-      greetingCont.classList.remove('hidden');
-    }
-})
-const showQuote = document.getElementById('show-quote');
-showQuote.addEventListener('change', () => {
-    if (showQuote.value === 'off') {
-      quoteCont.classList.add('hidden');
-    }
-    if (showQuote.value === 'on') {
-      quoteCont.classList.remove('hidden');
-    }
-})
-const weatherShow = document.getElementById('show-weather');
-weatherShow.addEventListener('change', () => {
-    if (weatherShow .value === 'off') {
-      weather.classList.add('hidden');
-    }
-    if (weatherShow.value === 'on') {
-      weather.classList.remove('hidden');
-    }
-})
-const audioShow = document.getElementById('show-audio');
-  audioShow.addEventListener('change', () => {
-    if (audioShow.value === 'off') {
-      player.classList.add('hidden');
-    }
-    if (audioShow.value === 'on') {
-      player.classList.remove('hidden');
-    }
-})
-
-const elements = [timeShow.value, dateShow.value, greetingShow.value, showQuote.value, weatherShow.value, audioShow.value];
-
-function setLocalStorageElements() {
-  localStorage.setItem('elements', elements);
+function hideTime () {
+  if (timeShow.value === 'off') {
+    time.classList.add('hidden');
+  }
+  if (timeShow.value === 'on') {
+    time.classList.remove('hidden');
+  }
 }
-window.addEventListener('beforeunload', setLocalStorageElements);
+const timeShow = document.getElementById('show-time');
+  timeShow.addEventListener('change', hideTime)
 
-function getLocalStorageElements() {
-  for (let i = 0; i < 6; i += 1){
-    elements[i] = localStorage.elements[i];
+function hideDate (){
+  if (dateShow.value === 'off') {
+    data.classList.add('hidden');
+  }
+  if (dateShow.value === 'on') {
+    data.classList.remove('hidden');
+  }
+}
+const dateShow = document.getElementById('show-date');
+  dateShow.addEventListener('change', hideDate)
+
+function hideGreeting () {
+  if (greetingShow.value === 'off') {
+    greetingCont.classList.add('hidden');
+  }
+  if (greetingShow.value === 'on') {
+    greetingCont.classList.remove('hidden');
+  }
+}
+const greetingShow = document.getElementById('show-greeting');
+greetingShow.addEventListener('change', hideGreeting)
+
+function hideQuote () {
+  if (showQuote.value === 'off') {
+    quoteCont.classList.add('hidden');
+  }
+  if (showQuote.value === 'on') {
+    quoteCont.classList.remove('hidden');
+  }
+}
+const showQuote = document.getElementById('show-quote');
+showQuote.addEventListener('change', hideQuote)
+
+function hideWather () {
+  if (weatherShow .value === 'off') {
+    weather.classList.add('hidden');
+  }
+  if (weatherShow.value === 'on') {
+    weather.classList.remove('hidden');
   }
 }
 
-window.addEventListener('load', getLocalStorageElements);
-//show elements
+const weatherShow = document.getElementById('show-weather');
+weatherShow.addEventListener('change', hideWather)
 
+function hideAudio () {
+  if (audioShow.value === 'off') {
+    player.classList.add('hidden');
+  }
+  if (audioShow.value === 'on') {
+    player.classList.remove('hidden');
+  }
+}
+
+const audioShow = document.getElementById('show-audio');
+  audioShow.addEventListener('change', hideAudio)
+
+//show elements
