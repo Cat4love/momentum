@@ -314,29 +314,37 @@ body {
   position: absolute;
   left: 0px;
   bottom: 0px;
-  width: 300px;
-  height: 400px;
+  width: 200px;
+  height: 300px;
   background-color: black;
   border-radius: 25px;
   transition: .4s all ease-out;
   transform: translateX(-100%);
+}
+
+.settings-wraper {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  width: 150px;
+  margin-top: 20px;
+  margin-left: 20px;
 }
 
 .settings_item {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  gap: 30px;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 5px;
 }
 .settings-select {
   width: 60px;
   height: 20px;
 }
 .source-tag {
+  width: 100%;
   font-family: 'Arial', sans-serif;
   font-size: 16px;
   color: #fff;

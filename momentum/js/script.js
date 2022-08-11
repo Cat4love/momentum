@@ -28,6 +28,15 @@ const settings = document.querySelector('.settings');
 const all = document.querySelector('.all');
 const settingsWindow = document.querySelector('.settings-window');
 const sourceTag = document.querySelector('.source-tag');
+const timeSpan = document.querySelector('.time-span');
+const dateSpan = document.querySelector('.date-span');
+const greetingSpan = document.querySelector('.greeting-span');
+const quoteSpan = document.querySelector('.quote-span');
+const weatherSpan = document.querySelector('.weather-span');
+const audioSpan = document.querySelector('.audio-span ');
+const languageSpan = document.querySelector('.settings-language');
+const sourceSpan = document.querySelector('.settings-source');
+
 
 let language = 'en';
 
@@ -63,6 +72,7 @@ function changeLanguage() {
   getWeather();
   showTime();
   getQuotes();
+  changeSettings();
 }
 
 const selectLanguage = document.getElementById('select-language');
@@ -174,7 +184,6 @@ function setBg() {
         const res = await fetch(url);
         const data = await res.json();
         const bgNum = String(getRandomNum(1, 100)).padStart(2, '0');
-        console.log(bgNum);
         img.src = data.photos.photo[Number(bgNum)].url_l;
         img.addEventListener('load', () => {
           document.body.style.backgroundImage = `url(${img.src})`;
@@ -184,7 +193,6 @@ function setBg() {
         const res = await fetch(url);
         const data = await res.json();
         const bgNum = String(getRandomNum(1, 100)).padStart(2, '0');
-        console.log(bgNum);
         img.src = data.photos.photo[Number(bgNum)].url_l;
         img.addEventListener('load', () => {
           document.body.style.backgroundImage = `url(${img.src})`;
@@ -221,7 +229,7 @@ slidePrev.addEventListener('click', getSlidePrev);
 
 //weather
 async function getWeather() {
-  let url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=${language}&appid=5e6a18dd46aeb701230f1dac90b8123c&units=metric`;
+  let url = `ttps://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=${language}&appid=5e6a18dd46aeb701230f1dac90b8123c&units=metric`;
   const res = await fetch(url);
   const data = await res.json();
   console.log(res.status);
@@ -377,6 +385,31 @@ all.addEventListener('click', (event) => {
     settingsWindow.classList.remove('settings-window__on');
   }
 });
+function changeSettings () {
+  if (language === 'ru') {
+    timeSpan.textContent = 'Время:';
+    dateSpan.textContent = 'Дата:';
+    greetingSpan.textContent = 'Приветсвие:';
+    quoteSpan.textContent = 'Цитата:';
+    weatherSpan.textContent = 'Погода:';
+    audioSpan.textContent = 'Аудио:';
+    languageSpan.textContent = 'Язык:';
+    sourceSpan.textContent = 'Источник:';
+    sourceTag.placeholder = 'Введите тег';
+  }
+  if (language === 'en') {
+    timeSpan.textContent = 'Time:';
+    dateSpan.textContent = 'Date:';
+    greetingSpan.textContent = 'Greeting:';
+    quoteSpan.textContent = 'Quote:';
+    weatherSpan.textContent = 'Weather:';
+    audioSpan.textContent = 'Audio:';
+    languageSpan.textContent = 'Language:';
+    sourceSpan.textContent = 'Source:';
+    sourceTag.placeholder = 'Input tag';
+  }
+}
+
 //setings
 
 //show elements
