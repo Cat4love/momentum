@@ -317,7 +317,6 @@ body {
   width: 300px;
   height: 400px;
   background-color: black;
-  opacity: 0.7;
   border-radius: 25px;
   transition: .4s all ease-out;
   transform: translateX(-100%);
@@ -337,17 +336,22 @@ body {
   width: 60px;
   height: 20px;
 }
-.settings-buttons {
-  display: flex;
-  flex-direction: column;
+.source-tag {
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  color: #fff;
+  border: 0;
+  outline: 0;
+  border-bottom: 1px solid #fff;
+  background-color: transparent;
 }
-.settings-button {
-  width: 100px;
-  height: 20px;
+
+.source-tag::placeholder {
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  opacity: 0.6;
+  color: #fff;
 }
-
-
-
 .settings-window__on {
   transform: translateX(0%);
 }

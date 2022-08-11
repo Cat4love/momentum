@@ -1,4 +1,3 @@
-
 const time = document.querySelector('.time');
 const data = document.querySelector('.date');
 const greeting = document.querySelector('.greeting');
@@ -28,6 +27,7 @@ const trackList = document.querySelector('.play-list');
 const settings = document.querySelector('.settings');
 const all = document.querySelector('.all');
 const settingsWindow = document.querySelector('.settings-window');
+const sourceTag = document.querySelector('.source-tag');
 
 let language = 'en';
 
@@ -41,13 +41,13 @@ window.addEventListener('beforeunload', setLocalStorage);
 function getLocalStorage() {
   if (localStorage.getItem('name')) {
     name.value = localStorage.getItem('name');
-    }
+  }
   if (localStorage.getItem('language')) {
     language = localStorage.getItem('language');
     const selectLanguage = document.getElementById('select-language');
     selectLanguage.value = language;
-    changeLanguage()
-    }
+    changeLanguage();
+  }
 }
 window.addEventListener('load', getLocalStorage);
 
@@ -66,12 +66,12 @@ function changeLanguage() {
 }
 
 const selectLanguage = document.getElementById('select-language');
-  selectLanguage.addEventListener('change', () => {
-    changeLanguage()
-  })
+selectLanguage.addEventListener('change', () => {
+  changeLanguage();
+});
 //translate
 
-//time 
+//time
 function showTime() {
   const date = new Date();
   const currentTime = date.toLocaleTimeString();
@@ -111,11 +111,15 @@ function showGreeting() {
   if (language === 'ru') {
     const date = new Date();
     const hours = date.getHours();
-    greeting.textContent = ['Доброй ночи', 'Доброе утро', 'Добрый день', 'Добрый вечер'][Math.floor(hours / 6)];
+    greeting.textContent = [
+      'Доброй ночи',
+      'Доброе утро',
+      'Добрый день',
+      'Добрый вечер',
+    ][Math.floor(hours / 6)];
     name.placeholder = 'Введите имя';
   }
 }
-
 
 //greeting
 
@@ -127,14 +131,68 @@ function getRandomNum(min, max) {
 }
 let randomNum = getRandomNum(1, 20);
 
+const backgroundSource = document.getElementById('background-source');
+backgroundSource.addEventListener('change', setBg);
+sourceTag.addEventListener('change', setBg)
+
 function setBg() {
   const timeOfDay = getTimeOfDay();
-  const bgNum = String(randomNum).padStart(2, '0');
   const img = new Image();
-  img.src = `https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg`;
-  img.addEventListener('load', () => {
-    document.body.style.backgroundImage = `url(${img.src})`;
-  });
+  if (backgroundSource.value === 'source-github') {
+    const bgNum = String(randomNum).padStart(2, '0');
+    img.src = `https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg`;
+    img.addEventListener('load', () => {
+      document.body.style.backgroundImage = `url(${img.src})`;
+    });
+  }
+  if (backgroundSource.value === 'source-unsplash') {
+    async function getLinkToImageUnsplash() {
+      if (sourceTag.value === '') {
+        const url = `https://api.unsplash.com/photos/random?orientation=landscape&query=${timeOfDay}&client_id=S3zVgQSi3880eCM_HZC1Wz0m48tVcamW_ou-xi8GSao`;
+        const res = await fetch(url);
+        const data = await res.json();
+        img.src = data.urls.regular;
+        img.addEventListener('load', () => {
+          document.body.style.backgroundImage = `url(${img.src})`;
+        });
+      } else {
+        const url = `https://api.unsplash.com/photos/random?orientation=landscape&query=${sourceTag.value}&client_id=S3zVgQSi3880eCM_HZC1Wz0m48tVcamW_ou-xi8GSao`;
+        const res = await fetch(url);
+        const data = await res.json();
+        img.src = data.urls.regular;
+        img.addEventListener('load', () => {
+          document.body.style.backgroundImage = `url(${img.src})`;
+        });
+      }
+    }
+    getLinkToImageUnsplash()
+  }
+  if (backgroundSource.value === 'source-flickr') {
+    async function getLinkToImageFlickr() {
+      if (sourceTag.value === '') {
+        const url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=605acdc8a3fc03897a77f27e493a8120&tags=${timeOfDay}&extras=url_l&format=json&nojsoncallback=1`;
+        const res = await fetch(url);
+        const data = await res.json();
+        const bgNum = String(getRandomNum(1, 100)).padStart(2, '0');
+        console.log(bgNum);
+        img.src = data.photos.photo[Number(bgNum)].url_l;
+        img.addEventListener('load', () => {
+          document.body.style.backgroundImage = `url(${img.src})`;
+        });
+      } else {
+        const url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=605acdc8a3fc03897a77f27e493a8120&tags=${sourceTag.value}&extras=url_l&format=json&nojsoncallback=1`;
+        const res = await fetch(url);
+        const data = await res.json();
+        const bgNum = String(getRandomNum(1, 100)).padStart(2, '0');
+        console.log(bgNum);
+        img.src = data.photos.photo[Number(bgNum)].url_l;
+        img.addEventListener('load', () => {
+          document.body.style.backgroundImage = `url(${img.src})`;
+        });
+      }
+    }
+    getLinkToImageFlickr();
+  }
 }
 
 setBg();
@@ -158,6 +216,7 @@ function getSlidePrev() {
   setBg();
 }
 slidePrev.addEventListener('click', getSlidePrev);
+
 //slider
 
 //weather
@@ -310,18 +369,18 @@ audio.addEventListener('ended', nextTrack);
 settings.addEventListener('click', () => {
   all.classList.toggle('hidden');
   settingsWindow.classList.toggle('settings-window__on');
-})
+});
 
 all.addEventListener('click', (event) => {
   if (event.target.classList.contains('all')) {
     all.classList.add('hidden');
     settingsWindow.classList.remove('settings-window__on');
   }
-})
+});
 //setings
 
 //show elements
-function hideTime () {
+function hideTime() {
   if (timeShow.value === 'off') {
     time.classList.add('hidden');
   }
@@ -330,9 +389,9 @@ function hideTime () {
   }
 }
 const timeShow = document.getElementById('show-time');
-  timeShow.addEventListener('change', hideTime)
+timeShow.addEventListener('change', hideTime);
 
-function hideDate (){
+function hideDate() {
   if (dateShow.value === 'off') {
     data.classList.add('hidden');
   }
@@ -341,9 +400,9 @@ function hideDate (){
   }
 }
 const dateShow = document.getElementById('show-date');
-  dateShow.addEventListener('change', hideDate)
+dateShow.addEventListener('change', hideDate);
 
-function hideGreeting () {
+function hideGreeting() {
   if (greetingShow.value === 'off') {
     greetingCont.classList.add('hidden');
   }
@@ -352,9 +411,9 @@ function hideGreeting () {
   }
 }
 const greetingShow = document.getElementById('show-greeting');
-greetingShow.addEventListener('change', hideGreeting)
+greetingShow.addEventListener('change', hideGreeting);
 
-function hideQuote () {
+function hideQuote() {
   if (showQuote.value === 'off') {
     quoteCont.classList.add('hidden');
   }
@@ -363,10 +422,10 @@ function hideQuote () {
   }
 }
 const showQuote = document.getElementById('show-quote');
-showQuote.addEventListener('change', hideQuote)
+showQuote.addEventListener('change', hideQuote);
 
-function hideWather () {
-  if (weatherShow .value === 'off') {
+function hideWather() {
+  if (weatherShow.value === 'off') {
     weather.classList.add('hidden');
   }
   if (weatherShow.value === 'on') {
@@ -375,9 +434,9 @@ function hideWather () {
 }
 
 const weatherShow = document.getElementById('show-weather');
-weatherShow.addEventListener('change', hideWather)
+weatherShow.addEventListener('change', hideWather);
 
-function hideAudio () {
+function hideAudio() {
   if (audioShow.value === 'off') {
     player.classList.add('hidden');
   }
@@ -387,6 +446,6 @@ function hideAudio () {
 }
 
 const audioShow = document.getElementById('show-audio');
-  audioShow.addEventListener('change', hideAudio)
+audioShow.addEventListener('change', hideAudio);
 
 //show elements
