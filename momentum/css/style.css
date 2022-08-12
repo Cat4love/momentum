@@ -368,9 +368,18 @@ body {
   transform: translateX(0%);
 }
 
+.unhidden {
+  visibility: visible;
+  opacity: 1;
+  transition: all ease .5s;
+  pointer-events: auto;
+}
+
 .hidden {
   visibility: hidden;
-  transition: 0.4s all ease-in-out;
+  opacity: 0;
+  transition: all ease .5s;
+  pointer-events: none;
 } 
 
 

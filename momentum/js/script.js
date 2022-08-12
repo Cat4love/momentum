@@ -37,16 +37,32 @@ const audioSpan = document.querySelector('.audio-span ');
 const languageSpan = document.querySelector('.settings-language');
 const sourceSpan = document.querySelector('.settings-source');
 const backgroundSource = document.getElementById('background-source');
+const timeShow = document.getElementById('show-time');
+const dateShow = document.getElementById('show-date');
+const greetingShow = document.getElementById('show-greeting');
+const showQuote = document.getElementById('show-quote');
+const weatherShow = document.getElementById('show-weather');
+const audioShow = document.getElementById('show-audio');
 
 //localStorage
 let language = 'en';
 
+
 function setLocalStorage() {
+  const elementsArray = [
+    timeShow.value,
+    dateShow.value,
+    greetingShow.value,
+    showQuote.value,
+    weatherShow.value,
+    audioShow.value,
+  ];
   localStorage.setItem('name', name.value);
   localStorage.setItem('city', city.value);
   localStorage.setItem('language', language);
   localStorage.setItem('source', backgroundSource.value);
   localStorage.setItem('sourceTag', sourceTag.value);
+  localStorage.setItem('elements', elementsArray);
 }
 window.addEventListener('beforeunload', setLocalStorage);
 
@@ -84,12 +100,32 @@ function getLocalStorage() {
   }
   if (localStorage.getItem('source')) {
     backgroundSource.value = localStorage.getItem('source');
-    setBg()
+    setBg();
   } else {
     backgroundSource.value = 'source-github';
-    setBg()
+    setBg();
   }
+  if (localStorage.getItem('elements')) {
+    const elementsArray = [
+      timeShow,
+      dateShow,
+      greetingShow,
+      showQuote,
+      weatherShow,
+      audioShow,
+    ];
+    elementsArray.forEach((element, index) => {
+      element.value = localStorage.getItem('elements').split(',')[index];
+    })
+  }
+    hideTime();
+    hideDate();
+    hideGreeting();
+    hideQuote();
+    hideWather();
+    hideAudio();
 }
+
 
 window.addEventListener('load', getLocalStorage);
 //localStorage
@@ -175,9 +211,8 @@ function getRandomNum(min, max) {
 }
 let randomNum = getRandomNum(1, 20);
 
-
 backgroundSource.addEventListener('change', setBg);
-sourceTag.addEventListener('change', setBg)
+sourceTag.addEventListener('change', setBg);
 
 function setBg() {
   const timeOfDay = getTimeOfDay();
@@ -209,7 +244,7 @@ function setBg() {
         });
       }
     }
-    getLinkToImageUnsplash()
+    getLinkToImageUnsplash();
   }
   if (backgroundSource.value === 'source-flickr') {
     async function getLinkToImageFlickr() {
@@ -257,7 +292,6 @@ function getSlidePrev() {
 }
 slidePrev.addEventListener('click', getSlidePrev);
 
-
 //slider
 
 //weather
@@ -265,7 +299,6 @@ async function getWeather() {
   let url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=${language}&appid=5e6a18dd46aeb701230f1dac90b8123c&units=metric`;
   const res = await fetch(url);
   const data = await res.json();
-  console.log(res.status);
   if (data.cod === '404' || data.cod === '400') {
     weatherError.textContent = `Error!`;
     weatherIcon.className = 'weather-icon owf';
@@ -389,7 +422,7 @@ all.addEventListener('click', (event) => {
     settingsWindow.classList.remove('settings-window__on');
   }
 });
-function changeSettings () {
+function changeSettings() {
   if (language === 'ru') {
     timeSpan.textContent = 'Время:';
     dateSpan.textContent = 'Дата:';
@@ -424,7 +457,6 @@ function hideTime() {
     time.classList.remove('hidden');
   }
 }
-const timeShow = document.getElementById('show-time');
 timeShow.addEventListener('change', hideTime);
 
 function hideDate() {
@@ -435,7 +467,6 @@ function hideDate() {
     data.classList.remove('hidden');
   }
 }
-const dateShow = document.getElementById('show-date');
 dateShow.addEventListener('change', hideDate);
 
 function hideGreeting() {
@@ -446,7 +477,6 @@ function hideGreeting() {
     greetingCont.classList.remove('hidden');
   }
 }
-const greetingShow = document.getElementById('show-greeting');
 greetingShow.addEventListener('change', hideGreeting);
 
 function hideQuote() {
@@ -457,7 +487,6 @@ function hideQuote() {
     quoteCont.classList.remove('hidden');
   }
 }
-const showQuote = document.getElementById('show-quote');
 showQuote.addEventListener('change', hideQuote);
 
 function hideWather() {
@@ -468,8 +497,6 @@ function hideWather() {
     weather.classList.remove('hidden');
   }
 }
-
-const weatherShow = document.getElementById('show-weather');
 weatherShow.addEventListener('change', hideWather);
 
 function hideAudio() {
@@ -480,8 +507,6 @@ function hideAudio() {
     player.classList.remove('hidden');
   }
 }
-
-const audioShow = document.getElementById('show-audio');
 audioShow.addEventListener('change', hideAudio);
 
 //show elements
