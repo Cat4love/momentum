@@ -36,14 +36,17 @@ const weatherSpan = document.querySelector('.weather-span');
 const audioSpan = document.querySelector('.audio-span ');
 const languageSpan = document.querySelector('.settings-language');
 const sourceSpan = document.querySelector('.settings-source');
+const backgroundSource = document.getElementById('background-source');
 
-
+//localStorage
 let language = 'en';
 
 function setLocalStorage() {
   localStorage.setItem('name', name.value);
   localStorage.setItem('city', city.value);
   localStorage.setItem('language', language);
+  localStorage.setItem('source', backgroundSource.value);
+  localStorage.setItem('sourceTag', sourceTag.value);
 }
 window.addEventListener('beforeunload', setLocalStorage);
 
@@ -57,8 +60,39 @@ function getLocalStorage() {
     selectLanguage.value = language;
     changeLanguage();
   }
+  if (localStorage.getItem('city')) {
+    city.value = localStorage.getItem('city');
+    if (city.value === 'Minsk' && language === 'ru') {
+      city.value = 'Минск';
+    }
+    if (city.value === 'Минск' && language === 'en') {
+      city.value = 'Minsk';
+    }
+    getWeather();
+  } else {
+    if (language === 'en') {
+      city.value = 'Minsk';
+      getWeather();
+    }
+    if (language === 'ru') {
+      city.value = 'Минск';
+      getWeather();
+    }
+  }
+  if (localStorage.getItem('sourceTag')) {
+    sourceTag.value = localStorage.getItem('sourceTag');
+  }
+  if (localStorage.getItem('source')) {
+    backgroundSource.value = localStorage.getItem('source');
+    setBg()
+  } else {
+    backgroundSource.value = 'source-github';
+    setBg()
+  }
 }
+
 window.addEventListener('load', getLocalStorage);
+//localStorage
 
 //translate
 function changeLanguage() {
@@ -141,7 +175,7 @@ function getRandomNum(min, max) {
 }
 let randomNum = getRandomNum(1, 20);
 
-const backgroundSource = document.getElementById('background-source');
+
 backgroundSource.addEventListener('change', setBg);
 sourceTag.addEventListener('change', setBg)
 
@@ -203,8 +237,6 @@ function setBg() {
   }
 }
 
-setBg();
-
 function getSlideNext() {
   if (randomNum + 1 === 21) {
     randomNum = 1;
@@ -225,11 +257,12 @@ function getSlidePrev() {
 }
 slidePrev.addEventListener('click', getSlidePrev);
 
+
 //slider
 
 //weather
 async function getWeather() {
-  let url = `ttps://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=${language}&appid=5e6a18dd46aeb701230f1dac90b8123c&units=metric`;
+  let url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=${language}&appid=5e6a18dd46aeb701230f1dac90b8123c&units=metric`;
   const res = await fetch(url);
   const data = await res.json();
   console.log(res.status);
@@ -256,35 +289,6 @@ async function getWeather() {
     }
   }
 }
-
-function setLocalStorageWeather() {
-  localStorage.setItem('city', city.value);
-}
-window.addEventListener('beforeunload', setLocalStorageWeather);
-
-function getLocalStorageWeather() {
-  if (localStorage.getItem('city')) {
-    city.value = localStorage.getItem('city');
-    if (city.value === 'Minsk' && language === 'ru') {
-      city.value = 'Минск';
-    }
-    if (city.value === 'Минск' && language === 'en') {
-      city.value = 'Minsk';
-    }
-    getWeather();
-  } else {
-    if (language === 'en') {
-      city.value = 'Minsk';
-      getWeather();
-    }
-    if (language === 'ru') {
-      city.value = 'Минск';
-      getWeather();
-    }
-  }
-}
-window.addEventListener('load', getLocalStorageWeather);
-
 city.addEventListener('change', getWeather);
 //weather
 
@@ -409,7 +413,6 @@ function changeSettings () {
     sourceTag.placeholder = 'Input tag';
   }
 }
-
 //setings
 
 //show elements
