@@ -241,7 +241,6 @@ function setBg() {
         }
         } catch(e) {
         console.log(e);
-        console.log();
         backgroundSource.value = 'source-github';
         setBg()
       }
@@ -303,7 +302,6 @@ slidePrev.addEventListener('click', getSlidePrev);
 
 //weather
 async function getWeather() {
-  console.log(city.value);
   try {
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=${language}&appid=5e6a18dd46aeb701230f1dac90b8123c&units=metric`;
     const res = await fetch(url);
