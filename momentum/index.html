@@ -14,14 +14,33 @@
         <div class="player-title">
           <span class="track"></span>
         </div>
+        <input
+          type="range"
+          id="progress-bar"
+          min="0"
+          max=""
+          value="0"
+        />
+        <div class="trackTime">
+          <div class="currentTime"></div>
+          <span class="trackTimeSlider">/</span>
+          <div class="durationTime"></div>
+          <button class="volume player-icon"></button>
+          <input
+          type="range"
+          id="volume-bar"
+          min="0"
+          max="100"
+          value="0"
+        />
+        </div>
         <audio></audio>
         <div class="player-controls">
           <button class="play-prev player-icon"></button>
           <button class="play player-icon"></button>
           <button class="play-next player-icon"></button>
         </div>
-        <ul class="play-list">
-        </ul>
+        <ul class="play-list"></ul>
       </div>
       <div class="weather unhidden">
         <input type="text" class="city" />
@@ -44,7 +63,7 @@
       <date class="date unhidden"></date>
       <div class="greeting-container unhidden">
         <span class="greeting"></span>
-        <input type="text" class="name" placeholder=""/>
+        <input type="text" class="name" placeholder="" />
       </div>
     </main>
     <footer class="footer">
@@ -55,67 +74,72 @@
       </div>
       <div class="footer-bar">
         <button class="settings"></button>
-      </div> 
+      </div>
     </footer>
     <div class="all hidden">
       <div class="settings-window">
         <div class="settings-wraper">
           <div class="settings_item">
             <span class="settings-language">Language:</span>
-            <select id='select-language'class="settings-select">
+            <select id="select-language" class="settings-select">
               <option value="en">EN</option>
               <option value="ru">RU</option>
             </select>
           </div>
           <div class="settings_item">
             <span class="settings-source">Source:</span>
-            <select id='background-source'class="settings-select">
+            <select id="background-source" class="settings-select">
               <option value="source-github">GitHub</option>
-              <option value="source-unsplash">Unsplash</option> 
-              <option value="source-flickr">Flickr</option> 
+              <option value="source-unsplash">Unsplash</option>
+              <option value="source-flickr">Flickr</option>
             </select>
           </div>
           <div class="settings_item">
-            <input type="text" class="source-tag" placeholder="source tag" value=""/>
+            <input
+              type="text"
+              class="source-tag"
+              placeholder="source tag"
+              value=""
+            />
           </div>
           <div class="settings_item">
             <span class="time-span">time</span>
-            <select id='show-time'class="settings-select">
+            <select id="show-time" class="settings-select">
               <option value="on">ON</option>
-              <option value="off">OFF</option> 
+              <option value="off">OFF</option>
             </select>
           </div>
           <div class="settings_item">
             <span class="date-span">date</span>
-            <select id='show-date'class="settings-select">
+            <select id="show-date" class="settings-select">
               <option value="on">ON</option>
               <option value="off">OFF</option>
             </select>
           </div>
           <div class="settings_item">
             <span class="greeting-span">greeting</span>
-            <select id='show-greeting'class="settings-select">
+            <select id="show-greeting" class="settings-select">
               <option value="on">ON</option>
               <option value="off">OFF</option>
             </select>
           </div>
           <div class="settings_item">
             <span class="quote-span">quote</span>
-            <select id='show-quote'class="settings-select">
+            <select id="show-quote" class="settings-select">
               <option value="on">ON</option>
               <option value="off">OFF</option>
             </select>
           </div>
           <div class="settings_item">
             <span class="weather-span">weather</span>
-            <select id='show-weather'class="settings-select">
+            <select id="show-weather" class="settings-select">
               <option value="on">ON</option>
               <option value="off">OFF</option>
             </select>
           </div>
           <div class="settings_item">
             <span class="audio-span">audio</span>
-            <select id='show-audio'class="settings-select">
+            <select id="show-audio" class="settings-select">
               <option value="on">ON</option>
               <option value="off">OFF</option>
             </select>

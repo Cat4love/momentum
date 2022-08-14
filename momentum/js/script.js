@@ -24,6 +24,7 @@ const play = document.querySelector('.play');
 const playPrev = document.querySelector('.play-prev');
 const playNext = document.querySelector('.play-next');
 const trackList = document.querySelector('.play-list');
+const track = document.querySelector('.track');
 const settings = document.querySelector('.settings');
 const all = document.querySelector('.all');
 const settingsWindow = document.querySelector('.settings-window');
@@ -121,6 +122,7 @@ function getLocalStorage() {
     hideQuote();
     hideWather();
     hideAudio();
+    updateProgressValue();
 }
 window.addEventListener('load', getLocalStorage);
 //localStorage
@@ -357,18 +359,27 @@ import playList from './playList.js';
 
 for (let i = 0; i < playList.length; i++) {
   const li = document.createElement('li');
+  const div = document.createElement('div');
+  li.style.display='flex';
   li.classList.add('play-item');
+  div.classList.add('mini-play');
+  li.append(div);
   li.textContent = `${playList[i].title}`;
   trackList.append(li);
 }
 
 let isPlay = false;
 let playNum = 0;
+let saveTrackTime = 0;
+
+function getTrackTime() {
+  saveTrackTime = audio.currentTime;
+}
 
 function playAudio() {
   if (!isPlay) {
     audio.src = playList[playNum].src;
-    audio.currentTime = 0;
+    audio.currentTime = saveTrackTime;
     audio.play();
     isPlay = true;
     document
@@ -390,6 +401,7 @@ function nextTrack() {
     playNum += 1;
   }
   isPlay = false;
+  saveTrackTime = 0;
   playAudio();
   toggleBtn();
 }
@@ -403,6 +415,7 @@ function prevTrack() {
     playNum -= 1;
   }
   isPlay = false;
+  saveTrackTime = 0;
   playAudio();
   toggleBtn();
 }
@@ -416,13 +429,85 @@ function toggleBtn() {
 }
 
 play.addEventListener('click', playAudio);
+play.addEventListener('click', getTrackTime);
 play.addEventListener('click', toggleBtn);
 playNext.addEventListener('click', nextTrack);
 playPrev.addEventListener('click', prevTrack);
-
 audio.addEventListener('ended', nextTrack);
 
+//audio plus
+const progressBar = document.querySelector('#progress-bar'); 
+const currentTime = document.querySelector('.currentTime'); 
+const durationTime = document.querySelector('.durationTime');
+
+function updateProgressValue() {
+  progressBar.max = audio.duration;
+  progressBar.value = audio.currentTime;
+  document.querySelector('.currentTime').innerHTML = (formatTime(Math.floor(audio.currentTime)));
+  if (formatTime(Math.floor(audio.duration)) === "NaN:NaN") {
+    document.querySelector('.durationTime').innerHTML = "0:00";
+  } else {
+    document.querySelector('.durationTime').innerHTML = (formatTime(Math.floor(audio.duration)));
+  }
+};
+
+function formatTime(seconds) {
+  let min = Math.floor((seconds / 60));
+  let sec = Math.floor(seconds - (min * 60));
+  if (sec < 10){ 
+      sec  = `0${sec}`;
+  };
+  return `${min}:${sec}`;
+};
+
+setInterval(updateProgressValue, 500);
+
+function changeProgressBar() {
+  audio.currentTime = progressBar.value;
+};
+
+progressBar.addEventListener('input', () => {
+  changeProgressBar()
+})
+
+
+const volume = document.querySelector('.volume');
+
+function mute() {
+  volume.classList.toggle('volumeOff');
+  audio.muted = !audio.muted;
+  if (audio.muted) {
+    volumeBar.value = 0;
+    changeVolume()
+  } else {
+    volumeBar.value = 100;
+    changeVolume()
+  }
+}
+volume.addEventListener('click', mute)
+
+const volumeBar = document.querySelector('#volume-bar');
+volumeBar.value = 100;
+
+
+function changeVolume() {
+  audio.volume = volumeBar.value / 100;
+  if (audio.volume === 0) {
+    volume.classList.add('volumeOff');
+  }
+  if (audio.volume > 0){
+    volume.classList.remove('volumeOff');
+  }
+}
+
+volumeBar.addEventListener('input', () => {
+  changeVolume();
+})
+
+
+
 //audio
+
 //settings
 settings.addEventListener('click', () => {
   all.classList.toggle('hidden');
@@ -523,3 +608,5 @@ function hideAudio() {
 audioShow.addEventListener('change', hideAudio);
 
 //show elements
+
+
