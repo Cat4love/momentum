@@ -70,12 +70,6 @@ function getLocalStorage() {
   if (localStorage.getItem('name')) {
     name.value = localStorage.getItem('name');
   }
-  if (localStorage.getItem('language')) {
-    language = localStorage.getItem('language');
-    const selectLanguage = document.getElementById('select-language');
-    selectLanguage.value = language;
-    changeLanguage();
-  }
   if (localStorage.getItem('city')) {
     city.value = localStorage.getItem('city');
     if (city.value === 'Minsk' && language === 'ru') {
@@ -84,16 +78,19 @@ function getLocalStorage() {
     if (city.value === 'Минск' && language === 'en') {
       city.value = 'Minsk';
     }
-    getWeather();
   } else {
     if (language === 'en') {
       city.value = 'Minsk';
-      getWeather();
     }
     if (language === 'ru') {
       city.value = 'Минск';
-      getWeather();
     }
+  }
+  if (localStorage.getItem('language')) {
+    language = localStorage.getItem('language');
+    const selectLanguage = document.getElementById('select-language');
+    selectLanguage.value = language;
+    changeLanguage();
   }
   if (localStorage.getItem('sourceTag')) {
     sourceTag.value = localStorage.getItem('sourceTag');
@@ -125,8 +122,6 @@ function getLocalStorage() {
     hideWather();
     hideAudio();
 }
-
-
 window.addEventListener('load', getLocalStorage);
 //localStorage
 
@@ -139,10 +134,10 @@ function changeLanguage() {
   if (city.value === 'Минск' && language === 'en') {
     city.value = 'Minsk';
   }
-  getWeather();
   showTime();
   getQuotes();
   changeSettings();
+  getWeather();
 }
 
 const selectLanguage = document.getElementById('select-language');
@@ -226,46 +221,59 @@ function setBg() {
   }
   if (backgroundSource.value === 'source-unsplash') {
     async function getLinkToImageUnsplash() {
-      if (sourceTag.value === '') {
-        const url = `https://api.unsplash.com/photos/random?orientation=landscape&query=${timeOfDay}&client_id=S3zVgQSi3880eCM_HZC1Wz0m48tVcamW_ou-xi8GSao`;
-        const res = await fetch(url);
-        const data = await res.json();
-        img.src = data.urls.regular;
-        img.addEventListener('load', () => {
-          document.body.style.backgroundImage = `url(${img.src})`;
-        });
-      } else {
-        const url = `https://api.unsplash.com/photos/random?orientation=landscape&query=${sourceTag.value}&client_id=S3zVgQSi3880eCM_HZC1Wz0m48tVcamW_ou-xi8GSao`;
-        const res = await fetch(url);
-        const data = await res.json();
-        img.src = data.urls.regular;
-        img.addEventListener('load', () => {
-          document.body.style.backgroundImage = `url(${img.src})`;
-        });
+      try {
+        if (sourceTag.value === '') {
+          const url = `https://api.unsplash.com/photos/random?orientation=landscape&query=${timeOfDay}&client_id=S3zVgQSi3880eCM_HZC1Wz0m48tVcamW_ou-xi8GSao`;
+          const res = await fetch(url);
+          const data = await res.json();
+          img.src = data.urls.regular;
+          img.addEventListener('load', () => {
+            document.body.style.backgroundImage = `url(${img.src})`;
+          });
+        } else {
+          const url = `https://api.unsplash.com/photos/random?orientation=landscape&query=${sourceTag.value}&client_id=S3zVgQSi3880eCM_HZC1Wz0m48tVcamW_ou-xi8GSao`;
+          const res = await fetch(url);
+          const data = await res.json();
+          img.src = data.urls.regular;
+          img.addEventListener('load', () => {
+            document.body.style.backgroundImage = `url(${img.src})`;
+          });
+        }
+        } catch(e) {
+        console.log(e);
+        console.log();
+        backgroundSource.value = 'source-github';
+        setBg()
       }
     }
     getLinkToImageUnsplash();
   }
   if (backgroundSource.value === 'source-flickr') {
     async function getLinkToImageFlickr() {
-      if (sourceTag.value === '') {
-        const url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=605acdc8a3fc03897a77f27e493a8120&tags=${timeOfDay}&extras=url_l&format=json&nojsoncallback=1`;
-        const res = await fetch(url);
-        const data = await res.json();
-        const bgNum = String(getRandomNum(1, 100)).padStart(2, '0');
-        img.src = data.photos.photo[Number(bgNum)].url_l;
-        img.addEventListener('load', () => {
-          document.body.style.backgroundImage = `url(${img.src})`;
-        });
-      } else {
-        const url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=605acdc8a3fc03897a77f27e493a8120&tags=${sourceTag.value}&extras=url_l&format=json&nojsoncallback=1`;
-        const res = await fetch(url);
-        const data = await res.json();
-        const bgNum = String(getRandomNum(1, 100)).padStart(2, '0');
-        img.src = data.photos.photo[Number(bgNum)].url_l;
-        img.addEventListener('load', () => {
-          document.body.style.backgroundImage = `url(${img.src})`;
-        });
+      try {
+        if (sourceTag.value === '') {
+          const url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=605acdc8a3fc03897a77f27e493a8120&tags=${timeOfDay}&extras=url_l&format=json&nojsoncallback=1`;
+          const res = await fetch(url);
+          const data = await res.json();
+          const bgNum = String(getRandomNum(1, 100)).padStart(2, '0');
+          img.src = data.photos.photo[Number(bgNum)].url_l;
+          img.addEventListener('load', () => {
+            document.body.style.backgroundImage = `url(${img.src})`;
+          });
+        } else {
+          const url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=605acdc8a3fc03897a77f27e493a8120&tags=${sourceTag.value}&extras=url_l&format=json&nojsoncallback=1`;
+          const res = await fetch(url);
+          const data = await res.json();
+          const bgNum = String(getRandomNum(1, 100)).padStart(2, '0');
+          img.src = data.photos.photo[Number(bgNum)].url_l;
+          img.addEventListener('load', () => {
+            document.body.style.backgroundImage = `url(${img.src})`;
+          });
+        } 
+      } catch(e) {
+        console.log(e);
+        backgroundSource.value = 'source-github';
+        setBg()
       }
     }
     getLinkToImageFlickr();
@@ -291,22 +299,15 @@ function getSlidePrev() {
   setBg();
 }
 slidePrev.addEventListener('click', getSlidePrev);
-
 //slider
 
 //weather
 async function getWeather() {
-  let url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=${language}&appid=5e6a18dd46aeb701230f1dac90b8123c&units=metric`;
-  const res = await fetch(url);
-  const data = await res.json();
-  if (data.cod === '404' || data.cod === '400') {
-    weatherError.textContent = `Error!`;
-    weatherIcon.className = 'weather-icon owf';
-    temperature.textContent = '';
-    weatherDescription.textContent = '';
-    wind.textContent = '';
-    humidity.textContent = '';
-  } else {
+  console.log(city.value);
+  try {
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=${language}&appid=5e6a18dd46aeb701230f1dac90b8123c&units=metric`;
+    const res = await fetch(url);
+    const data = await res.json();
     weatherError.textContent = '';
     weatherIcon.className = 'weather-icon owf';
     weatherIcon.classList.add(`owf-${data.weather[0].id}`);
@@ -320,9 +321,23 @@ async function getWeather() {
       wind.textContent = `Скорость ветра: ${Math.round(data.wind.speed)}m/s`;
       humidity.textContent = `Влажность: ${Math.round(data.main.humidity)}%.`;
     }
+  } catch(e) {
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=${language}&appid=5e6a18dd46aeb701230f1dac90b8123c&units=metric`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if(data.cod === '404') {
+      weatherError.textContent = `Error! City not found for "${city.value}".`}
+    if(data.cod === '400') {
+      weatherError.textContent = `Error! Please enter city.`};
+    weatherIcon.className = 'weather-icon owf';
+    temperature.textContent = '';
+    weatherDescription.textContent = '';
+    wind.textContent = '';
+    humidity.textContent = '';
   }
 }
 city.addEventListener('change', getWeather);
+
 //weather
 
 //quote
