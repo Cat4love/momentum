@@ -74,6 +74,12 @@
       </div>
       <div class="footer-bar">
         <button class="settings"></button>
+        <div class="footer-links">
+          <a href="https://github.com/andreiplavinski" class="gitgub"></a>
+          <span>2022</span>
+          <a href="https://rs.school/js-stage0/"class="rsschool"></a>
+        </div>
+        <button class="todo"></button>
       </div>
     </footer>
     <div class="all hidden">
@@ -144,6 +150,22 @@
               <option value="off">OFF</option>
             </select>
           </div>
+        </div>
+      </div>
+      <div class="todo-window">
+        <div class="todo-wraper">
+          <select id="select-box" class="todo-select">
+            <option value="inbox">Inbox</option>
+            <option value="today">Today</option>
+            <option value="done">Done</option>
+          </select>
+          <ul class="inbox-list todo-list list_off ">
+            <li class="list-item"></li>
+          </ul>
+          <ul class="today-list todo-list list_off ">
+          </ul>
+          <ul class="done-list todo-list list_off "></ul>
+          <input type="text" class="todo-text" id='todo-input' placeholder="todo">
         </div>
       </div>
     </div>

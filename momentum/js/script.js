@@ -44,6 +44,9 @@ const greetingShow = document.getElementById('show-greeting');
 const showQuote = document.getElementById('show-quote');
 const weatherShow = document.getElementById('show-weather');
 const audioShow = document.getElementById('show-audio');
+const todo = document.querySelector('.todo');
+const todoWindow = document.querySelector('.todo-window');
+
 
 //localStorage
 let language = 'en';
@@ -528,17 +531,36 @@ volumeBar.addEventListener('input', () => {
 //audio
 
 //settings
-settings.addEventListener('click', () => {
-  all.classList.toggle('hidden');
+function toggleSettings() {
+  if(all.classList.contains('hidden') && !todoWindow.classList.contains('todo-window__on')){
+    all.classList.remove('hidden');
+  }
   settingsWindow.classList.toggle('settings-window__on');
-});
+};
+
+function toggleTodo() {
+  if(all.classList.contains('hidden') && !settingsWindow.classList.contains('settings-window__on')){
+    all.classList.remove('hidden');
+  }
+  todoWindow.classList.toggle('todo-window__on');
+};
+
+settings.addEventListener('click', toggleSettings);
+
+todo.addEventListener('click', toggleTodo);
 
 all.addEventListener('click', (event) => {
-  if (event.target.classList.contains('all')) {
+  if (event.target.classList.contains('all')){
     all.classList.add('hidden');
     settingsWindow.classList.remove('settings-window__on');
+    todoWindow.classList.remove('todo-window__on');
   }
 });
+
+
+
+
+
 function changeSettings() {
   if (language === 'ru') {
     timeSpan.textContent = 'Время:';
@@ -625,7 +647,57 @@ function hideAudio() {
   }
 }
 audioShow.addEventListener('change', hideAudio);
-
 //show elements
+
+
+//todo
+const selectBox = document.querySelector('#select-box');
+const inboxList = document.querySelector('.inbox-list');
+const todayList = document.querySelector('.today-list');
+const doneList = document.querySelector('.done-list');
+const todoText = document.getElementById('todo-input');
+
+
+
+function chooseList() {
+  if (selectBox.value === 'inbox') {
+    inboxList.classList.add('list_on');
+    todayList.classList.remove('list_on');
+    doneList.classList.remove('list_on');
+  }
+  if (selectBox.value === 'today') {
+    inboxList.classList.remove('list_on');
+    todayList.classList.add('list_on');
+    doneList.classList.remove('list_on');
+  }
+  if (selectBox.value === 'done') {
+    inboxList.classList.remove('list_on');
+    todayList.classList.remove('list_on');
+    doneList.classList.add('list_on');
+  }
+}
+
+selectBox.addEventListener('change', chooseList);
+
+chooseList();
+
+
+function writeTodo(text) {
+  document.querySelectorAll('.todo-list').forEach(element => {
+    if(element.classList.contains('list_on')) {
+      const li = document.createElement('li');
+      li.classList.add('list-item');
+      li.textContent = `${text}`;
+      element.append(li);
+    }
+  })
+}
+
+todoText.addEventListener('change', () => {
+  writeTodo(todoText.value);
+  todoText.value = '';
+})
+
+//todo
 
 
