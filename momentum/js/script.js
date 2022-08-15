@@ -543,6 +543,7 @@ function toggleTodo() {
     all.classList.remove('hidden');
   }
   todoWindow.classList.toggle('todo-window__on');
+  cleanDoneList();
 };
 
 settings.addEventListener('click', toggleSettings);
@@ -659,6 +660,7 @@ const todoText = document.getElementById('todo-input');
 
 
 
+
 function chooseList() {
   if (selectBox.value === 'inbox') {
     inboxList.classList.add('list_on');
@@ -698,6 +700,45 @@ todoText.addEventListener('change', () => {
   todoText.value = '';
 })
 
+
+todoWindow.addEventListener('click', function(event) {
+  document.querySelectorAll('.todo-list').forEach(element => {
+    if(element.classList.contains('done-list')){
+      element.querySelectorAll('.list-item').forEach(item => {
+        if (event.target.innerHTML === item.innerHTML) {
+          item.remove();
+        }
+      })
+    }
+    if(element.classList.contains('inbox-list')){
+      element.querySelectorAll('.list-item').forEach(item => {
+        if (event.target.innerHTML === item.innerHTML) {
+          item.classList.toggle('list-item-done');
+        }
+      })
+    }
+    if(element.classList.contains('today-list')){
+      element.querySelectorAll('.list-item').forEach(item => {
+        if (event.target.innerHTML === item.innerHTML) {
+          item.classList.toggle('list-item-done');
+        }
+      })
+    }
+  })
+});
+
+function cleanDoneList(){
+  document.querySelectorAll('.list-item').forEach(element => {
+    if (element.classList.contains('list-item-done')){
+      const li = document.createElement('li');
+      li.classList.add('list-item');
+      li.textContent = element.innerHTML;
+      doneList.append(li);
+      element.remove();
+    }
+  })
+}
 //todo
+
 
 
