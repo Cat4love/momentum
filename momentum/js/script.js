@@ -359,11 +359,8 @@ import playList from './playList.js';
 
 for (let i = 0; i < playList.length; i++) {
   const li = document.createElement('li');
-  const div = document.createElement('div');
-  li.style.display='flex';
   li.classList.add('play-item');
-  div.classList.add('mini-play');
-  li.append(div);
+  li.id = `track${i}`;
   li.textContent = `${playList[i].title}`;
   trackList.append(li);
 }
@@ -377,6 +374,7 @@ function getTrackTime() {
 }
 
 function playAudio() {
+  document.querySelectorAll('.play-list > li').forEach(element => element.classList.remove('item-active'));
   if (!isPlay) {
     audio.src = playList[playNum].src;
     audio.currentTime = saveTrackTime;
@@ -427,6 +425,27 @@ function toggleBtn() {
     play.classList.add('pause');
   }
 }
+
+
+document.querySelectorAll('.play-list > li').forEach(element => element.addEventListener('click', () => {
+  const trackNumber = Number(element.id[5]);
+  if (!isPlay) {
+    playNum = trackNumber;
+    document.querySelectorAll('.play-list > li').forEach(element => element.classList.remove('item-active'));
+    playAudio();
+    toggleBtn();
+  } else if (isPlay && playNum === trackNumber){
+    document.querySelectorAll('.play-list > li').forEach(element => element.classList.remove('item-active'));
+    playAudio();
+    toggleBtn();
+  } else if (isPlay && playNum !== trackNumber){
+    document.querySelectorAll('.play-list > li').forEach(element => element.classList.remove('item-active'));
+    playNum = trackNumber;
+    playAudio();
+    playAudio();
+    toggleBtn();
+  }
+}))
 
 play.addEventListener('click', playAudio);
 play.addEventListener('click', getTrackTime);
