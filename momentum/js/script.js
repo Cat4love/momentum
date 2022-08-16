@@ -46,6 +46,18 @@ const weatherShow = document.getElementById('show-weather');
 const audioShow = document.getElementById('show-audio');
 const todo = document.querySelector('.todo');
 const todoWindow = document.querySelector('.todo-window');
+const todoShow = document.getElementById('show-todo');
+const todoSpan = document.querySelector('.todo-span');
+const selectBox = document.querySelector('#select-box');
+const inboxList = document.querySelector('.inbox-list');
+const todayList = document.querySelector('.today-list');
+const doneList = document.querySelector('.done-list');
+const todoText = document.getElementById('todo-input');
+const todoToday = document.getElementById('todo-today');
+const todoInbox = document.getElementById('todo-inbox');
+const todoDone = document.getElementById('todo-done');
+
+
 
 
 //localStorage
@@ -60,6 +72,7 @@ function setLocalStorage() {
     showQuote.value,
     weatherShow.value,
     audioShow.value,
+    todoShow.value
   ];
   localStorage.setItem('name', name.value);
   localStorage.setItem('city', city.value);
@@ -114,6 +127,7 @@ function getLocalStorage() {
       showQuote,
       weatherShow,
       audioShow,
+      todoShow 
     ];
     elementsArray.forEach((element, index) => {
       element.value = localStorage.getItem('elements').split(',')[index];
@@ -125,6 +139,7 @@ function getLocalStorage() {
     hideQuote();
     hideWather();
     hideAudio();
+    hideTodo();
     updateProgressValue();
 }
 window.addEventListener('load', getLocalStorage);
@@ -143,6 +158,7 @@ function changeLanguage() {
   getQuotes();
   changeSettings();
   getWeather();
+  changeTodo();
 }
 
 const selectLanguage = document.getElementById('select-language');
@@ -573,6 +589,7 @@ function changeSettings() {
     languageSpan.textContent = 'Язык:';
     sourceSpan.textContent = 'Источник:';
     sourceTag.placeholder = 'Введите тег';
+    todoSpan.textContent = 'Список дел:';
   }
   if (language === 'en') {
     timeSpan.textContent = 'Time:';
@@ -584,6 +601,7 @@ function changeSettings() {
     languageSpan.textContent = 'Language:';
     sourceSpan.textContent = 'Source:';
     sourceTag.placeholder = 'Input tag';
+    todoSpan.textContent = 'Todo list:';
   }
 }
 //setings
@@ -648,18 +666,22 @@ function hideAudio() {
   }
 }
 audioShow.addEventListener('change', hideAudio);
+
+function hideTodo() {
+  if (todoShow.value === 'off') {
+    todo.classList.add('hidden');
+    todoWindow.classList.add('hidden');
+  }
+  if (todoShow.value === 'on') {
+    todo.classList.remove('hidden');
+    todoWindow.classList.remove('hidden');
+  }
+}
+todoShow.addEventListener('change', hideTodo);
 //show elements
 
 
 //todo
-const selectBox = document.querySelector('#select-box');
-const inboxList = document.querySelector('.inbox-list');
-const todayList = document.querySelector('.today-list');
-const doneList = document.querySelector('.done-list');
-const todoText = document.getElementById('todo-input');
-
-
-
 
 function chooseList() {
   if (selectBox.value === 'inbox') {
@@ -689,7 +711,7 @@ function writeTodo(text) {
     if(element.classList.contains('list_on')) {
       const li = document.createElement('li');
       li.classList.add('list-item');
-      li.textContent = `${text}`;
+      li.textContent = `- ${text}`;
       element.append(li);
     }
   })
@@ -737,6 +759,22 @@ function cleanDoneList(){
       element.remove();
     }
   })
+}
+
+
+function changeTodo() {
+  if (language === 'ru') {
+    todoToday.innerHTML = 'Сегодня';
+    todoInbox.innerHTML = 'Входящие';
+    todoDone.innerHTML = 'Выполнено';
+    todoText.placeholder = 'Новая запись';
+  }
+  if (language === 'en'){
+    todoToday.innerHTML = 'Today';
+    todoInbox.innerHTML = 'Inbox';
+    todoDone.innerHTML = 'Done';
+    todoText.placeholder = 'New entry';
+  }
 }
 //todo
 

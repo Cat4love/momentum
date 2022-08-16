@@ -109,43 +109,50 @@
             />
           </div>
           <div class="settings_item">
-            <span class="time-span">time</span>
+            <span class="time-span"></span>
             <select id="show-time" class="settings-select">
               <option value="on">ON</option>
               <option value="off">OFF</option>
             </select>
           </div>
           <div class="settings_item">
-            <span class="date-span">date</span>
+            <span class="date-span"></span>
             <select id="show-date" class="settings-select">
               <option value="on">ON</option>
               <option value="off">OFF</option>
             </select>
           </div>
           <div class="settings_item">
-            <span class="greeting-span">greeting</span>
+            <span class="greeting-span"></span>
             <select id="show-greeting" class="settings-select">
               <option value="on">ON</option>
               <option value="off">OFF</option>
             </select>
           </div>
           <div class="settings_item">
-            <span class="quote-span">quote</span>
+            <span class="quote-span"></span>
             <select id="show-quote" class="settings-select">
               <option value="on">ON</option>
               <option value="off">OFF</option>
             </select>
           </div>
           <div class="settings_item">
-            <span class="weather-span">weather</span>
+            <span class="weather-span"></span>
             <select id="show-weather" class="settings-select">
               <option value="on">ON</option>
               <option value="off">OFF</option>
             </select>
           </div>
           <div class="settings_item">
-            <span class="audio-span">audio</span>
+            <span class="audio-span"></span>
             <select id="show-audio" class="settings-select">
+              <option value="on">ON</option>
+              <option value="off">OFF</option>
+            </select>
+          </div>
+          <div class="settings_item">
+            <span class="todo-span"></span>
+            <select id="show-todo" class="settings-select">
               <option value="on">ON</option>
               <option value="off">OFF</option>
             </select>
@@ -155,9 +162,9 @@
       <div class="todo-window">
         <div class="todo-wraper">
           <select id="select-box" class="todo-select">
-            <option value="inbox">Inbox</option>
-            <option value="today">Today</option>
-            <option value="done">Done</option>
+            <option value="today" id="todo-today"></option>
+            <option value="inbox" id="todo-inbox"></option>
+            <option value="done" id="todo-done"></option>
           </select>
           <ul class="inbox-list todo-list list_off ">
             <li class="list-item"></li>
