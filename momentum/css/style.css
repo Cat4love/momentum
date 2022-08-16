@@ -126,8 +126,8 @@ body {
 .volume {
   background-image: url('../assets/svg/volume.svg');
   background-size: cover;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
 }
 
 .volumeOff {
@@ -152,6 +152,7 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  gap: 1px;
 }
 
 
@@ -607,5 +608,18 @@ body {
   .todo-window {
     width: 160px;
   }
+
+  .currentTime,
+  .durationTime,
+  .trackTimeSlider,
+  .track {
+    font-size: 3vw;
+  }
+
+  .volume{
+    width: 12px;
+    height: 12px;
+  }
 }
+
 
