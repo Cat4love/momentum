@@ -80,9 +80,35 @@ function setLocalStorage() {
   localStorage.setItem('source', backgroundSource.value);
   localStorage.setItem('sourceTag', sourceTag.value);
   localStorage.setItem('elements', elementsArray);
-  
+  document.querySelectorAll('.todo-list').forEach(element => {
+    if(element.classList.contains('done-list')){
+      const doneArray = [];
+      element.querySelectorAll('.list-item').forEach(item => {
+        doneArray.push(item.innerHTML);
+      })
+      localStorage.setItem('done-list', doneArray);
+    }
+    if(element.classList.contains('today-list')){
+      const todayArray = [];
+      element.querySelectorAll('.list-item').forEach(item => {
+        todayArray.push(item.innerHTML);
+      })
+      localStorage.setItem('today-list', todayArray);
+    }
+    if(element.classList.contains('inbox-list')){
+      const inboxArray = [];
+      element.querySelectorAll('.list-item').forEach(item => {
+        inboxArray.push(item.innerHTML);
+      })
+      localStorage.setItem('inbox-list', inboxArray);
+    }
+
+  })
 }
 window.addEventListener('beforeunload', setLocalStorage);
+
+
+
 
 function getLocalStorage() {
   if (localStorage.getItem('name')) {
@@ -134,6 +160,35 @@ function getLocalStorage() {
       element.value = localStorage.getItem('elements').split(',')[index];
     })
   }
+  if (localStorage.getItem('today-list')) {
+    const arrayToday = localStorage.getItem('today-list').split(',');
+    arrayToday.forEach(element => {
+      const li = document.createElement('li');
+      li.classList.add('list-item');
+      li.textContent = `${element}`;
+      todayList.append(li);
+    })
+  }
+  if (localStorage.getItem('inbox-list')) {
+    const arrayInbox = localStorage.getItem('inbox-list').split(',');
+    arrayInbox.forEach(element => {
+      const li = document.createElement('li');
+      li.classList.add('list-item');
+      li.textContent = `${element}`;
+      inboxList.append(li);
+    })
+  }
+  if (localStorage.getItem('done-list')) {
+    const arrayDone = localStorage.getItem('done-list').split(',');
+    arrayDone.forEach(element => {
+      const li = document.createElement('li');
+      li.classList.add('list-item');
+      li.textContent = `${element}`;
+      doneList.append(li);
+    })
+  };
+
+
     hideTime();
     hideDate();
     hideGreeting();
