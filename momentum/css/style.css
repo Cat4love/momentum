@@ -64,7 +64,6 @@ body {
   opacity: 0.8;
   cursor: pointer;
   transition: 0.3s;
-  font-size: 1.7vw;
 }
 
 .play-item:hover {
@@ -559,8 +558,12 @@ body {
     font-size: 72px;
   }
 
+  .play-item{
+    font-size: 2.5vw;
+  }
+
   .greeting-container {
-    min-height: 40px;
+    min-height: 38px;
     font-size: 32px;
   }
 
@@ -569,7 +572,7 @@ body {
   }
 
   .name {
-    font-size: 32px;
+    font-size: 28px;
     padding: 5px;
   }
 }
@@ -582,6 +585,7 @@ body {
   .date {
     font-size: 18px;
   }
+
   .greeting-container {
     min-height: 40px;
     font-size: 24px;
@@ -592,7 +596,7 @@ body {
   }
 
   .name {
-    font-size: 24px;
+    font-size: 20px;
     padding: 5px;
   }
 

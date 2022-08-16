@@ -80,6 +80,7 @@ function setLocalStorage() {
   localStorage.setItem('source', backgroundSource.value);
   localStorage.setItem('sourceTag', sourceTag.value);
   localStorage.setItem('elements', elementsArray);
+  
 }
 window.addEventListener('beforeunload', setLocalStorage);
 
