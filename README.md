@@ -15,8 +15,6 @@
 - генерирование html через js;
 - работа с асинхронными запросами. 
 
-- [Demo](https://momentum-2021q3.netlify.app/)
-- [Файлы  с вёрсткой](https://github.com/rolling-scopes-school/stage1-tasks/tree/momentum)
 
 ## Структура приложения
 Приложение состоит из шести функциональных блоков:
