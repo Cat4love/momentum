@@ -1,7 +1,35 @@
-1. https://github.com/rolling-scopes-school/tasks/blob/master/tasks/momentum/momentum-stage1.md
-2. <img width="1440" alt="Снимок экрана 2022-08-16 в 13 15 26" src="https://user-images.githubusercontent.com/106539971/184856226-f70918bc-5a25-44ca-afdd-9acd1c67a3e2.png">
-3. https://andreiplavinski-momentum.netlify.app/
-(or https://rolling-scopes-school.github.io/andreiplavinski-JSFEPRESCHOOL2022Q2/momentum/)
-4. 2022-08-16 / 2022-08-17 03:00 
+# momentum
 
-5. 150/150
+## Описание проекта
+**Momentum** - аналог [одноимённого приложения](https://chrome.google.com/webstore/detail/momentum/laookkfknpbbblfpciffpaejjkokdgca?hl=ru) интернет-магазина Chrome. Приложение показывает время и имя пользователя. Фоновое изображение и приветствие меняются в зависимости от времени суток.  
+В приложении есть часы, слайдер изображений, виджеты погоды, аудиоплеер, цитата дня. Для хранения имени пользователя и населённого пункта используется локальное хранилище - local storage.
+
+## Ключевые навыки:
+- методы поиска элементов;
+- вывод данных на страницу;
+- работа с датой и временем;
+- работа с аудио;
+- сохранение данных в local storage;
+- использование рекурсивного setTimeout;
+- деление js-кода на модули;
+- генерирование html через js;
+- работа с асинхронными запросами. 
+
+- [Demo](https://momentum-2021q3.netlify.app/)
+- [Файлы  с вёрсткой](https://github.com/rolling-scopes-school/stage1-tasks/tree/momentum)
+
+## Структура приложения
+Приложение состоит из шести функциональных блоков:
+1. Часы и календарь
+2. Приветствие
+3. Слайдер изображений 
+4. Виджет погоды
+5. Аудиоплеер
+6. Виджет цитата дня
+
+## Деплой проекта:
+
+https://andreiplavinski-momentum.netlify.app/
+
+https://rolling-scopes-school.github.io/andreiplavinski-JSFEPRESCHOOL2022Q2/momentum/
+
